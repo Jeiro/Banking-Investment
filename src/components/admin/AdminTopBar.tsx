@@ -43,7 +43,7 @@ export default function AdminTopBar() {
         {/* Admin badge */}
         <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 border border-red-500/20 rounded-lg">
           <Shield className="w-3.5 h-3.5 text-red-400" />
-          <span className="text-red-400 text-xs font-semibold">Super Admin</span>
+          <span className="text-red-400 text-xs font-semibold">Admin</span>
         </div>
       </div>
     </header>

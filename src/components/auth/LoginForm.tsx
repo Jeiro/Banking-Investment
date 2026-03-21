@@ -25,9 +25,11 @@ export default function LoginForm() {
   function validate() {
     const errs: typeof errors = {}
     if (!email) errs.email = "Email is required"
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Enter a valid email"
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errs.email = "Enter a valid email"
     if (!password) errs.password = "Password is required"
-    else if (password.length < 6) errs.password = "Password must be at least 6 characters"
+    else if (password.length < 6)
+      errs.password = "Password must be at least 6 characters"
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -37,15 +39,17 @@ export default function LoginForm() {
     if (!validate()) return
     setLoading(true)
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
     if (error) {
-      toast.error(error.message)
+      toast.error("Invalid email or password")
       setLoading(false)
       return
     }
 
-    // Check role for redirect
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
@@ -54,7 +58,8 @@ export default function LoginForm() {
 
     toast.success("Welcome back!")
 
-    if (profile?.role === "admin" || profile?.role === "super_admin") {
+    // Only admin role goes to admin panel
+    if (profile?.role === "admin") {
       router.push("/admin/overview")
     } else {
       router.push("/dashboard/overview")
@@ -67,20 +72,21 @@ export default function LoginForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white mb-2">Welcome back</h1>
+        <h1 className="font-display text-3xl font-bold text-white mb-2">
+          Welcome back
+        </h1>
         <p className="text-white/50 text-sm">
           Sign in to your NexVault account to continue.
         </p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleLogin} className="space-y-5">
-
         {/* Email */}
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-white/70 text-sm">Email address</Label>
+          <Label htmlFor="email" className="text-white/70 text-sm">
+            Email address
+          </Label>
           <div className="relative">
             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
             <Input
@@ -88,7 +94,7 @@ export default function LoginForm() {
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={(e: any) => {
+              onChange={(e) => {
                 setEmail(e.target.value)
                 if (errors.email) setErrors((p) => ({ ...p, email: undefined }))
               }}
@@ -106,8 +112,13 @@ export default function LoginForm() {
         {/* Password */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password" className="text-white/70 text-sm">Password</Label>
-            <Link href="/forgot-password" className="text-brand-blue text-xs hover:underline">
+            <Label htmlFor="password" className="text-white/70 text-sm">
+              Password
+            </Label>
+            <Link
+              href="/forgot-password"
+              className="text-brand-blue text-xs hover:underline"
+            >
               Forgot password?
             </Link>
           </div>
@@ -118,9 +129,10 @@ export default function LoginForm() {
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               value={password}
-              onChange={(e: any) => {
+              onChange={(e) => {
                 setPassword(e.target.value)
-                if (errors.password) setErrors((p) => ({ ...p, password: undefined }))
+                if (errors.password)
+                  setErrors((p) => ({ ...p, password: undefined }))
               }}
               className={cn(
                 "pl-10 pr-10 h-12 bg-navy-card border-navy-border text-white placeholder:text-white/20 rounded-xl focus:border-brand-blue focus:ring-1 focus:ring-brand-blue/30 transition-all",
@@ -132,7 +144,11 @@ export default function LoginForm() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/70 transition-colors"
             >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showPassword ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
             </button>
           </div>
           {errors.password && (
@@ -156,26 +172,18 @@ export default function LoginForm() {
         </Button>
       </form>
 
-      {/* Divider */}
       <div className="flex items-center gap-3 my-6">
         <div className="flex-1 h-px bg-navy-border" />
-        <span className="text-white/30 text-xs">OR</span>
+        <span className="text-white/30 text-xs">NEW TO NEXVAULT</span>
         <div className="flex-1 h-px bg-navy-border" />
       </div>
 
-      {/* Demo credentials box */}
-      <div className="p-4 rounded-xl border border-brand-blue/20 bg-brand-blue/5 mb-6">
-        <p className="text-white/60 text-xs font-medium mb-2">🧪 Demo Credentials</p>
-        <div className="space-y-1 text-xs text-white/40">
-          <p><span className="text-white/60">User:</span> user@nexvault.com / <span className="text-white/60">password123</span></p>
-          <p><span className="text-white/60">Admin:</span> admin@nexvault.com / <span className="text-white/60">admin123</span></p>
-        </div>
-      </div>
-
-      {/* Register link */}
       <p className="text-center text-white/40 text-sm">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-brand-blue hover:underline font-medium">
+        <Link
+          href="/register"
+          className="text-brand-blue hover:underline font-medium"
+        >
           Create one free
         </Link>
       </p>

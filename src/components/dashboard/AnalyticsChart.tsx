@@ -64,7 +64,9 @@ export default function AnalyticsChart() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h3 className="font-display font-semibold text-white">Portfolio Overview</h3>
-          <p className="text-white/40 text-xs mt-0.5">Track your financial performance</p>
+          <p className="text-white/40 text-xs mt-0.5">
+            Balance trend across your accounts
+          </p>
         </div>
         <div className="flex items-center gap-2">
           {/* Metric selector */}

@@ -33,6 +33,7 @@ export interface Profile {
   two_factor_enabled: boolean
   referral_code: string | null
   referred_by: string | null
+  preferred_currency: string | null
   onboarding_completed: boolean
   created_at: string
   updated_at: string

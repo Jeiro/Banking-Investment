@@ -22,10 +22,12 @@ export default function QuickActions() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-navy-card border border-navy-border rounded-2xl p-5"
+      className="bg-navy-card border border-navy-border rounded-2xl p-4 sm:p-5"
     >
-      <h3 className="font-display font-semibold text-white mb-4">Quick Actions</h3>
-      <div className="grid grid-cols-3 gap-3">
+      <h3 className="font-display font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">
+        Quick Actions
+      </h3>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {actions.map(({ label, href, icon: Icon, color, iconColor, border }, i) => (
           <motion.div
             key={label}
@@ -35,12 +37,14 @@ export default function QuickActions() {
           >
             <Link
               href={href}
-              className={`flex flex-col items-center gap-2 p-3 rounded-xl border ${border} bg-gradient-to-br ${color} hover:scale-105 transition-all duration-200 text-center`}
+              className={`flex flex-col items-center gap-1.5 sm:gap-2 p-2.5 sm:p-3 rounded-xl border ${border} bg-gradient-to-br ${color} hover:scale-105 active:scale-95 transition-all duration-200 text-center`}
             >
-              <div className="w-9 h-9 bg-navy-card/80 rounded-xl flex items-center justify-center">
-                <Icon className={`w-4 h-4 ${iconColor}`} />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-navy-card/80 rounded-xl flex items-center justify-center">
+                <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${iconColor}`} />
               </div>
-              <span className="text-white/80 text-xs font-medium">{label}</span>
+              <span className="text-white/80 text-[10px] sm:text-xs font-medium leading-tight">
+                {label}
+              </span>
             </Link>
           </motion.div>
         ))}
